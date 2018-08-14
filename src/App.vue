@@ -10,7 +10,7 @@
               <router-link class="nav-link" to="/cars">Cars</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link">Add car</router-link>
+              <router-link class="nav-link" to="/add">Add car</router-link>
             </li>
           </ul>
         </div>

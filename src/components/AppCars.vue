@@ -1,13 +1,16 @@
 <template>
     <div>
         <h1>Cars</h1>
-        <router-link
-            class="list-group-item list-group-item-action"
-            v-for="car in cars" 
-            :key="car.id"
-            :to="{name: 'car-list', params: {id: car.id}}">
-            {{ car.brand }}
-        </router-link>
+        <div v-for="car in cars" :key="car.id">
+            <h3>{{ car.brand }}</h3>
+            <div>Model: {{ car.model }}</div>
+            <div>Year: {{ car.year }}</div>
+            <div>Mx speed: {{ car.maxSpeed }}</div>
+            <div>Automatic: {{ car.isAutomatic }}</div>
+            <div>Engine: {{ car.engine }}</div>
+            <div>NUmber of doors: {{ car.numberOfDoors }}</div>
+            
+        </div>
     </div>
 </template>
 
