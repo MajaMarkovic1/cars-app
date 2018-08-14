@@ -12,6 +12,8 @@ export default class Cars {
     add(car){
         return axios.post('cars', car)
     }
+
+   
 }
 
 export const cars = new Cars();

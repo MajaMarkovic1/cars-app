@@ -68,6 +68,7 @@
           <div class="form-group row">
             <div class="offset-4 col-8">
               <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+              <button name="submit" type="submit" class="btn btn-primary">Reset</button>
             </div>
           </div>
         </form>
@@ -104,14 +105,30 @@ export default {
     },
     methods: {
         onSubmit(){
+            this.$route.params.id ? this.editCar() : this.addCar();
+           //ako ima id onda edit ako ne onda add
+        },
+        addCar(){
             cars
             .add(this.car)
             .then(response => {
                 this.$router.push('/cars')
             })
             .catch(err => console.log(err))
+        },
+        editCar(){
+            cars
+            .edit(this.car)
+            .then(response => {
+                
+                this.$router.push('/add')
+            })
+            .catch(err => console.log(err))
         }
-    }
+            
+            
+        }
+    
     
 }
 </script>
