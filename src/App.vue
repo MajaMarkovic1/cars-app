@@ -1,7 +1,17 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class='container'>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/cars">Cars</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link">Add car</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -11,18 +21,12 @@ import HelloWorld from './components/HelloWorld.vue'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
