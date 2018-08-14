@@ -8,7 +8,7 @@ export default new Router({
     mode: 'history',
     routes: [
         { path: '/', redirect: 'cars'},
-        { path: '/cars', component: AppCars},
+        { path: '/cars', component: AppCars, name: 'car-list'},
         
     ]
 })
