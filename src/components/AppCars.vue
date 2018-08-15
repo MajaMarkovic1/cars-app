@@ -4,6 +4,8 @@
         <div v-for="car in cars" :key="car.id">
             <h3>{{ car.brand }}</h3>
             <router-link :to="{ name: 'edit-car', params: {id: car.id}}" class="btn btn-primary">Edit</router-link>
+            <button @click="deleteCar(car)" class="btn btn-danger">Delete</button>
+            
             <div>Model: {{ car.model }}</div>
             <div>Year: {{ car.year }}</div>
             <div>Mx speed: {{ car.maxSpeed }}</div>
@@ -20,7 +22,6 @@ import { cars } from '../services/Cars'
 
 export default {
     name: 'AppCars',
-    props: ['edit-car'],
     data(){
         return {
             cars: []
@@ -35,6 +36,24 @@ export default {
         })
         .catch(err => console.log(err))
     },
+    methods: {
+        deleteCar(car){
+            cars
+            .delete(car.id)
+            .then(response => {
+                let carIndex = this.cars.findIndex(c => c.id === car.id)
+                this.cars.splice(carIndex, 1)
+            })
+            .catch(err => console.log(err))
+            
+        }
+    }
 
 }
 </script>
+
+<style>
+button {
+    margin-left: 0.5rem;
+}
+</style>
