@@ -12,6 +12,8 @@ export default new Router({
         { path: '/', redirect: 'cars'},
         { path: '/cars', component: AppCars},
         { path: '/add', component: AddCar},
+        { path: '/edit/:id', component: AddCar, name: 'edit-car'},
+        
         
     ]
 })

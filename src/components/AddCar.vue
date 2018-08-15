@@ -117,10 +117,34 @@ export default {
             return years  
         }
     },
+    created(){
+        if (this.$route.params.id){
+            cars
+            .get(this.$route.params.id)
+            .then(response => {
+                (this.car = response.data)
+            })
+            .catch(err => console.log(err))
+        }
+    },
+
     methods: {
         onSubmit(){
+            this.$route.params.id ? this.editCar() : this.addCar()
+        },
+
+        addCar(){
             cars
             .add(this.car)
+            .then(response => {
+                this.$router.push('/cars')
+            })
+            .catch(err => console.log(err))
+        },
+
+        editCar(){
+            cars
+            .edit(this.car, this.car.id)
             .then(response => {
                 this.$router.push('/cars')
             })
@@ -140,12 +164,12 @@ export default {
             Automatic: ${this.car.isAutomatic},
             Engine: ${this.car.engine},
             Number of doors: ${this.car.numberOfDoors}`
-        )
+            )
             
         }
             
             
-        }
+    }
     
     
 }
