@@ -1,37 +1,44 @@
 <template>
     <div class="container">
         <form @submit.prevent="onSubmit" @reset="reset" id="form">
-            <div class="alert alert-warning" v-if="error">
+            <!-- <div class="alert alert-warning" v-if="error.length" >
                 {{ error }}
-            </div>
+            </div> -->
           <div class="form-group row">
             <label for="brand" class="col-4 col-form-label">Brand</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="brand" name="brand" type="text" class="form-control here" 
+                <input v-validate="'required'" id="brand" name="brand" type="text" class="form-control here" 
                     minlength="2" v-model="car.brand">
               </div>
+                <div v-show="errors.has('brand')" class="alert alert-warning">{{ errors.first('brand')}}</div>
             </div>
           </div>
+
           <div class="form-group row">
             <label for="model" class="col-4 col-form-label">Model</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="model" name="model" type="text" class="form-control here" 
+                <input  v-validate="'required'" id="model" name="model" type="text" class="form-control here" 
                     minlength="2" v-model="car.model">
               </div>
+                <div v-show="errors.has('model')" class="alert alert-warning">{{ errors.first("model")}}</div>
             </div>
           </div>
+
           <div class="form-group row">
             <label for="year" class="col-4 col-form-label">Year</label>
             <div class="col-8">
                 <select name="year" class="input-group" v-model="car.year">
-                    <option v-for="year in years" :key="year" :value="year" class="form-control here">
+                    <option v-validate="'required'" v-for="year in years" :key="year" :value="year" class="form-control here">
                         {{ year }}
-                    </option>
+                    </option>  
+                <div v-show="errors.has('year')" class="alert alert-warning">{{ errors.first("year")}}</div>
+                                      
                 </select>
             </div>
           </div>
+
           <div class="form-group row">
             <label for="maxSpeed" class="col-4 col-form-label">Max speed</label>
             <div class="col-8">
@@ -40,38 +47,42 @@
               </div>
             </div>
           </div>
+
           <div class="form-group row">
             <label for="numOfDoors" class="col-4 col-form-label">Number of doors</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="numOfDoors" name="numberOfDoors" type="number" class="form-control here" v-model="car.numberOfDoors">
+                <input v-validate="'required'" id="numOfDoors" name="numberOfDoors" type="number" class="form-control here" v-model="car.numberOfDoors">
               </div>
+                <div v-show="errors.has('numberOfDoors')" class="alert alert-warning">{{ errors.first("numberOfDoors")}}</div>
             </div>
           </div>
+
           <div class="form-group row">
                 <label for="engine" class="col-4 col-form-label">Engine</label>
               <div class="col-8"> 
-                <div class="radio">
+                <div  class="radio">
                     <div class="radio">
-                        <label><input type="radio" name="diesel" v-model="car.engine" value="diesel">
+                        <label><input v-validate="'required'" type="radio" name="engine" v-model="car.engine" value="diesel">
                             diesel
                         </label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="petrol"  v-model="car.engine" value="petrol">
+                        <label><input v-validate="'required'" type="radio" name="engine"  v-model="car.engine" value="petrol">
                             petrol
                         </label>
                     </div>
-                    <div class="radio disabled">
-                        <label><input type="radio" name="electric" v-model="car.engine" value="electric">
+                    <div class="radio">
+                        <label><input v-validate="'required'" type="radio" name="engine" v-model="car.engine" value="electric">
                             electric
                         </label>
                     </div>
-                    <div class="radio disabled">
-                        <label><input type="radio" name="hybrid" v-model="car.engine" value="hybrid">
+                    <div class="radio">
+                        <label><input v-validate="'required'" type="radio" name="engine" v-model="car.engine" value="hybrid">
                             hybrid
                         </label>
                     </div>
+                    <div v-show="errors.has('engine')" class="alert alert-warning">{{ errors.first("engine")}}</div>
                 </div>
                 </div>
             </div>
@@ -85,7 +96,6 @@
               <button name="submit" type="submit" class="btn btn-primary">Submit</button>
               <button name="submit" type="reset" class="btn btn-danger">Reset</button>
               <button name="submit" @click="preview()" class="btn btn-primary">Preview</button>
-              
             </div>
           </div>
         </form>
@@ -99,15 +109,15 @@ export default {
     name: 'AddCar',
     data(){
         return {
-            error: null,
+            error: '',
             car: {
                 brand: '',
                 model: '',
-                year: null,
-                maxSpeed: null,
+                year: '',
+                maxSpeed: '',
                 isAutomatic: false,
                 engine: '',
-                numberOfDoors: null
+                numberOfDoors: ''
             },
            
         }
@@ -134,12 +144,20 @@ export default {
 
     methods: {
         onSubmit(){
+
+            this.$validator.validateAll()
+            .then(() => {
+                this.$route.params.id ? this.editCar() : this.addCar()
+
+            })
             //validation
-            this.brand && this.model && this.year && this.numberOfDoors && this.engine ? 
-            true : this.error = 'You must fill all the fields!'
-            
-            //after successful validation
-            this.$route.params.id ? this.editCar() : this.addCar()
+            // if(this.brand && this.model && this.year && this.numberOfDoors && this.engine){
+
+            //     return true
+                
+            //  } else {
+            //      this.error = 'You must fill all the fields!'
+            //  }
         },
 
         addCar(){
@@ -176,11 +194,9 @@ export default {
             )
             
         }
-            
-            
+                   
     }
-    
-    
+     
 }
 </script>
 

@@ -38,16 +38,16 @@ export default {
     },
     methods: {
         deleteCar(car){
-            cars
-            .delete(car.id)
-            .then(response => {
-                let carIndex = this.cars.findIndex(c => c.id === car.id)
-                if (confirm('Do you want to delete this car?')) { 
-                    this.cars.splice(carIndex, 1)
-                }
-            })
-            .catch(err => console.log(err))
-            
+            if (confirm('Do you want to delete this car?')) { 
+                cars
+                .delete(car.id)
+                .then(response => {
+                    let carIndex = this.cars.findIndex(c => c.id === car.id)
+                        this.cars.splice(carIndex, 1)
+                    }
+                )
+                .catch(err => console.log(err))
+            }
         }
     }
 
