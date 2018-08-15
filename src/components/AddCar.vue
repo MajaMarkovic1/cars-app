@@ -1,11 +1,14 @@
 <template>
     <div class="container">
         <form @submit.prevent="onSubmit" @reset="reset" id="form">
+            <div class="alert alert-warning" v-if="error">
+                {{ error }}
+            </div>
           <div class="form-group row">
             <label for="brand" class="col-4 col-form-label">Brand</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="brand" name="brand" type="text" required="required" class="form-control here" 
+                <input id="brand" name="brand" type="text" class="form-control here" 
                     minlength="2" v-model="car.brand">
               </div>
             </div>
@@ -14,7 +17,7 @@
             <label for="model" class="col-4 col-form-label">Model</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="model" name="model" type="text" required="required" class="form-control here" 
+                <input id="model" name="model" type="text" class="form-control here" 
                     minlength="2" v-model="car.model">
               </div>
             </div>
@@ -22,7 +25,7 @@
           <div class="form-group row">
             <label for="year" class="col-4 col-form-label">Year</label>
             <div class="col-8">
-                <select class="input-group" v-model="car.year" required="required">
+                <select name="year" class="input-group" v-model="car.year">
                     <option v-for="year in years" :key="year" :value="year" class="form-control here">
                         {{ year }}
                     </option>
@@ -41,7 +44,7 @@
             <label for="numOfDoors" class="col-4 col-form-label">Number of doors</label>
             <div class="col-8">
               <div class="input-group">
-                <input id="numOfDoors" name="numOfDoors" type="number" required="required" class="form-control here" v-model="car.numberOfDoors">
+                <input id="numOfDoors" name="numberOfDoors" type="number" class="form-control here" v-model="car.numberOfDoors">
               </div>
             </div>
           </div>
@@ -50,22 +53,22 @@
               <div class="col-8"> 
                 <div class="radio">
                     <div class="radio">
-                        <label><input type="radio" name="optradio" required="required" v-model="car.engine" value="diesel">
+                        <label><input type="radio" name="diesel" v-model="car.engine" value="diesel">
                             diesel
                         </label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="optradio" required="required" v-model="car.engine" value="petrol">
+                        <label><input type="radio" name="petrol"  v-model="car.engine" value="petrol">
                             petrol
                         </label>
                     </div>
                     <div class="radio disabled">
-                        <label><input type="radio" name="optradio" required="required" v-model="car.engine" value="electric">
+                        <label><input type="radio" name="electric" v-model="car.engine" value="electric">
                             electric
                         </label>
                     </div>
                     <div class="radio disabled">
-                        <label><input type="radio" name="optradio" required="required" v-model="car.engine" value="hybrid">
+                        <label><input type="radio" name="hybrid" v-model="car.engine" value="hybrid">
                             hybrid
                         </label>
                     </div>
@@ -74,7 +77,7 @@
             </div>
           <div class="form-group row">
             <div class="checkbox">
-                <label><input type="checkbox" value="true" v-model="car.isAutomatic">  Automatic</label>
+                <label><input name="isAutomatic" type="checkbox" value="true" v-model="car.isAutomatic">  Automatic</label>
             </div>
           </div>
           <div class="form-group row">
@@ -96,6 +99,7 @@ export default {
     name: 'AddCar',
     data(){
         return {
+            error: null,
             car: {
                 brand: '',
                 model: '',
@@ -130,6 +134,11 @@ export default {
 
     methods: {
         onSubmit(){
+            //validation
+            this.brand && this.model && this.year && this.numberOfDoors && this.engine ? 
+            true : this.error = 'You must fill all the fields!'
+            
+            //after successful validation
             this.$route.params.id ? this.editCar() : this.addCar()
         },
 

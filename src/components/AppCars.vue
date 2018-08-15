@@ -42,7 +42,9 @@ export default {
             .delete(car.id)
             .then(response => {
                 let carIndex = this.cars.findIndex(c => c.id === car.id)
-                this.cars.splice(carIndex, 1)
+                if (confirm('Do you want to delete this car?')) { 
+                    this.cars.splice(carIndex, 1)
+                }
             })
             .catch(err => console.log(err))
             
