@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" @reset="reset" id="form">
           <div class="form-group row">
             <label for="brand" class="col-4 col-form-label">Brand</label>
             <div class="col-8">
@@ -68,7 +68,9 @@
           <div class="form-group row">
             <div class="offset-4 col-8">
               <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-              <button name="submit" type="submit" class="btn btn-primary">Reset</button>
+              <button name="submit" type="reset" class="btn btn-primary">Reset</button>
+              <button name="submit" @click="preview()" class="btn btn-primary">Preview</button>
+              
             </div>
           </div>
         </form>
@@ -105,10 +107,6 @@ export default {
     },
     methods: {
         onSubmit(){
-            this.$route.params.id ? this.editCar() : this.addCar();
-           //ako ima id onda edit ako ne onda add
-        },
-        addCar(){
             cars
             .add(this.car)
             .then(response => {
@@ -116,14 +114,22 @@ export default {
             })
             .catch(err => console.log(err))
         },
-        editCar(){
-            cars
-            .edit(this.car)
-            .then(response => {
-                
-                this.$router.push('/add')
-            })
-            .catch(err => console.log(err))
+       
+        reset(){
+           this.car = {}
+        },
+
+        preview(){
+            alert(`
+            Brand: ${this.car.brand}, 
+            Model: ${this.car.model},
+            Year: ${this.car.year},
+            Max speed: ${this.car.maxSpeed},
+            Automatic: ${this.car.isAutomatic},
+            Engine: ${this.car.engine},
+            Number of doors: ${this.car.numberOfDoors}`
+        )
+            
         }
             
             
@@ -139,6 +145,9 @@ export default {
 }
 form {
     margin-top: 1rem;
+}
+button {
+    margin-right: 0.5rem;
 }
 
 </style>
